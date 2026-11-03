@@ -78,12 +78,25 @@
     const ADMIN_EMAIL = 'yassinossama@yahoo.com';
     const ADMIN_PASS = 'mygodhelpus123456';
 
+    const defaultContent = {
+      centers: [
+        { en: "Stroke & Neurointervention", ar: "السكتة الدماغية والتدخل العصبي", descEn: "Comprehensive stroke center with international SILC accreditation from SVIN.", descAr: "مركز شامل للسكتة الدماغية معتمد دولياً من SVIN." }
+      ],
+      sections: [
+        { en: "Smouha Activities", ar: "أنشطة سموحة", descEn: "Events and workshops.", descAr: "الفعاليات وورش العمل." }
+      ],
+      library: [
+        { titleEn: "Stroke Code Simulation Workshop", titleAr: "ورشة محاكاة كود السكتة الدماغية", cat: "Neurointervention", type: "Lecture", url: "", likes: 0, liked: false }
+      ]
+    };
+
     let content = JSON.parse(localStorage.getItem('academyContent')) || null;
 
-    // Load default if none
-    if (!content) {
-      // Will be set from main if needed, but for demo we can redirect
-      content = JSON.parse(localStorage.getItem('academyContent') || '{}');
+    function ensureContent() {
+      if (!content || !content.centers || !content.library) {
+        content = JSON.parse(JSON.stringify(defaultContent));
+        localStorage.setItem('academyContent', JSON.stringify(content));
+      }
     }
 
     function login() {
@@ -93,7 +106,7 @@
         localStorage.setItem('academyAdmin', 'true');
         document.getElementById('loginScreen').style.display = 'none';
         document.getElementById('dashboard').style.display = 'block';
-        loadContent();
+        ensureContent();
         renderAdmin();
       } else {
         document.getElementById('loginError').style.display = 'block';
@@ -103,15 +116,6 @@
     function logout() {
       localStorage.removeItem('academyAdmin');
       location.reload();
-    }
-
-    function loadContent() {
-      content = JSON.parse(localStorage.getItem('academyContent'));
-      if (!content || !content.centers) {
-        // Fallback message
-        alert('Please visit the main website first to initialize content, then return here.');
-        window.location.href = 'index.html';
-      }
     }
 
     function saveContent() {
@@ -127,13 +131,10 @@
     }
 
     function renderAdmin() {
-      // Centers
+      ensureContent();
       document.getElementById('centersList').innerHTML = content.centers.map((c, i) => `
         <div class="item">
-          <div>
-            <strong>${c.en}</strong> / ${c.ar}<br>
-            <small>${c.descEn.substring(0,80)}...</small>
-          </div>
+          <div><strong>${c.en}</strong> / ${c.ar}</div>
           <div>
             <button onclick="editCenter(${i})">Edit</button>
             <button onclick="deleteCenter(${i})" style="background:var(--red);color:white;">Delete</button>
@@ -141,7 +142,6 @@
         </div>
       `).join('');
 
-      // Sections
       document.getElementById('sectionsList').innerHTML = content.sections.map((s, i) => `
         <div class="item">
           <div><strong>${s.en}</strong> / ${s.ar}</div>
@@ -152,10 +152,12 @@
         </div>
       `).join('');
 
-      // Library
       document.getElementById('libraryList').innerHTML = content.library.map((v, i) => `
         <div class="item">
-          <div><strong>${v.titleEn}</strong> / ${v.titleAr} <small>(${v.cat})</small>${v.url ? '<br><small style="color:#1B4F8A;">🔗 ' + v.url.substring(0,50) + '...</small>' : ''}</div>
+          <div>
+            <strong>${v.titleEn}</strong> / ${v.titleAr} <small>(${v.cat})</small>
+            ${v.url ? '<br><small style="color:#1B4F8A;">🔗 ' + v.url.substring(0,60) + '</small>' : '<br><small style="color:#999;">No video link</small>'}
+          </div>
           <div>
             <button onclick="editVideo(${i})">Edit</button>
             <button onclick="deleteVideo(${i})" style="background:var(--red);color:white;">Delete</button>
@@ -220,9 +222,9 @@
       const titleEn = prompt('English Title:');
       if (!titleEn) return;
       const titleAr = prompt('Arabic Title:');
-      const cat = prompt('Category (e.g. Neurointervention, Nursing):');
+      const cat = prompt('Category:');
       const type = prompt('Type (Lecture / Awareness / Training):');
-      const url = prompt('Video / YouTube / Lecture Link (optional):') || '';
+      const url = prompt('Video / YouTube / Vimeo / Dailymotion Link (optional):') || '';
       content.library.push({ titleEn, titleAr, cat, type, url, likes: 0, liked: false });
       saveContent(); renderAdmin();
     }
@@ -233,7 +235,7 @@
       v.titleAr = prompt('Arabic Title:', v.titleAr) || v.titleAr;
       v.cat = prompt('Category:', v.cat) || v.cat;
       v.type = prompt('Type:', v.type) || v.type;
-      v.url = prompt('Video / YouTube / Lecture Link:', v.url || '') || '';
+      v.url = prompt('Video Link (YouTube / Vimeo / Dailymotion):', v.url || '') || '';
       saveContent(); renderAdmin();
     }
 
@@ -245,19 +247,20 @@
     }
 
     function resetContent() {
-      if (confirm('Reset all content to default? This cannot be undone.')) {
+      if (confirm('Reset all content to default?')) {
         localStorage.removeItem('academyContent');
-        alert('Reset complete. Please reload the main website to reinitialize.');
-        location.reload();
+        content = JSON.parse(JSON.stringify(defaultContent));
+        localStorage.setItem('academyContent', JSON.stringify(content));
+        renderAdmin();
+        alert('Reset complete.');
       }
     }
 
-    // Check if already logged in
     if (localStorage.getItem('academyAdmin') === 'true') {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('dashboard').style.display = 'block';
-      loadContent();
-      if (content && content.centers) renderAdmin();
+      ensureContent();
+      renderAdmin();
     }
   </script>
 </body>
