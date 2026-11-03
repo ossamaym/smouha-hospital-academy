@@ -79,16 +79,31 @@ function renderAll() {
   // Library
   const libraryGrid = document.getElementById('libraryGrid');
   if (libraryGrid) {
-    libraryGrid.innerHTML = content.library.map(v => `
-      <div class="video-card">
-        <div class="video-thumb">▶</div>
-        <div class="video-info">
-          <h5>${currentLang === 'en' ? v.titleEn : v.titleAr}</h5>
-          <p style="font-size:0.85rem; color:#666;">${v.cat} · ${v.type}</p>
-          ${v.url ? `<a href="${v.url}" target="_blank" style="color:var(--gold); font-weight:600; text-decoration:none;">▶ Watch / Open</a>` : ''}
+    libraryGrid.innerHTML = content.library.map(v => {
+      let thumb = '▶';
+      let thumbStyle = 'display:flex;align-items:center;justify-content:center;font-size:3rem;color:var(--gold);';
+      if (v.url) {
+        // Auto YouTube thumbnail
+        const ytMatch = v.url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+        if (ytMatch) {
+          thumb = `<img src="https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg" alt="Thumbnail" style="width:100%;height:100%;object-fit:cover;">`;
+          thumbStyle = '';
+        } else if (v.thumb) {
+          thumb = `<img src="${v.thumb}" alt="Thumbnail" style="width:100%;height:100%;object-fit:cover;">`;
+          thumbStyle = '';
+        }
+      }
+      return `
+        <div class="video-card">
+          <div class="video-thumb" style="${thumbStyle}">${thumb}</div>
+          <div class="video-info">
+            <h5>${currentLang === 'en' ? v.titleEn : v.titleAr}</h5>
+            <p style="font-size:0.85rem; color:#666;">${v.cat} · ${v.type}</p>
+            ${v.url ? `<a href="${v.url}" target="_blank" style="color:var(--gold); font-weight:600; text-decoration:none;">▶ Watch / Open</a>` : ''}
+          </div>
         </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 }
 
