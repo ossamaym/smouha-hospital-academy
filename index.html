@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smouha Hospital Academy | أكاديمية مستشفى سموحة</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="smouha-logo.jpg">
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="#" class="logo-area">
+        <img src="smouha-logo.jpg" alt="Smouha Medical Campus Logo">
+        <div class="logo-text">
+          <h1 data-en="Smouha Academy" data-ar="أكاديمية سموحة">Smouha Academy</h1>
+          <span data-en="Excellence in Education" data-ar="التميز في التعليم">Excellence in Education</span>
+        </div>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#home" data-en="Home" data-ar="الرئيسية">Home</a></li>
+          <li><a href="#centers" data-en="Centers" data-ar="المراكز">Centers</a></li>
+          <li><a href="#library" data-en="Library" data-ar="المكتبة">Library</a></li>
+          <li><a href="#sections" data-en="Sections" data-ar="الأقسام">Sections</a></li>
+          <li><a href="#learning" data-en="Learning" data-ar="التعلم">Learning</a></li>
+        </ul>
+      </nav>
+      <button class="lang-switch" id="langSwitch">العربية</button>
+    </div>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <img src="smouha-logo.jpg" alt="Logo" class="hero-logo">
+      <h2 data-en="Smouha Hospital Academy" data-ar="أكاديمية مستشفى سموحة">Smouha Hospital Academy</h2>
+      <div class="slogan" data-en="Where Excellence Meets Innovation in Healthcare Education" data-ar="حيث يلتقي التميز بالابتكار في التعليم الصحي">Where Excellence Meets Innovation in Healthcare Education</div>
+      <p data-en="The premier educational platform of Smouha University Medical Campus — one of Alexandria University’s GAHAR-accredited specialized hospitals. Empowering healthcare professionals through world-class training, research, and innovation." data-ar="المنصة التعليمية الرائدة لمجمع سموحة الطبي الجامعي — أحد مستشفيات جامعة الإسكندرية المعتمدة من الهيئة العامة للاعتماد والرقابة الصحية (GAHAR). تمكين الكوادر الصحية من خلال التدريب والبحث والابتكار على أعلى مستوى عالمي.">The premier educational platform of Smouha University Medical Campus — one of Alexandria University’s GAHAR-accredited specialized hospitals. Empowering healthcare professionals through world-class training, research, and innovation.</p>
+      <a href="#library" class="btn-primary" data-en="Explore the Library" data-ar="استكشف المكتبة">Explore the Library</a>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="section-title">
+      <h3 data-en="About Smouha Medical Campus" data-ar="عن مجمع سموحة الطبي">About Smouha Medical Campus</h3>
+      <p data-en="A leading specialized university hospital under the Faculty of Medicine, Alexandria University. Proud recipient of preliminary GAHAR accreditation, reflecting our commitment to the highest standards of quality and patient safety." data-ar="مستشفى جامعي تخصصي رائد تابع لكلية الطب بجامعة الإسكندرية. حاصل على الاعتماد المبدئي من الهيئة العامة للاعتماد والرقابة الصحية (GAHAR)، مما يعكس التزامنا بأعلى معايير الجودة وسلامة المرضى.">A leading specialized university hospital under the Faculty of Medicine, Alexandria University. Proud recipient of preliminary GAHAR accreditation, reflecting our commitment to the highest standards of quality and patient safety.</p>
+    </div>
+    <div class="centers-grid" id="aboutContent">
+      <!-- Populated by JS or static -->
+    </div>
+  </section>
+
+  <section id="centers" style="background: white;">
+    <div class="section-title">
+      <h3 data-en="Specialized Centers of Excellence" data-ar="مراكز التميز المتخصصة">Specialized Centers of Excellence</h3>
+      <p data-en="World-class specialized units delivering advanced care and training." data-ar="وحدات تخصصية عالمية المستوى تقدم رعاية وتدريب متقدم.">World-class specialized units delivering advanced care and training.</p>
+    </div>
+    <div class="centers-grid" id="centersGrid"></div>
+  </section>
+
+  <section id="library">
+    <div class="section-title">
+      <h3 data-en="Educational & Awareness Library" data-ar="مكتبة التعليم والتوعية">Educational & Awareness Library</h3>
+      <p data-en="A vast collection of lectures, workshops, and awareness materials for healthcare professionals and the public." data-ar="مجموعة واسعة من المحاضرات وورش العمل والمواد التوعوية للمهنيين الصحيين والجمهور.">A vast collection of lectures, workshops, and awareness materials for healthcare professionals and the public.</p>
+    </div>
+    <div class="library-grid" id="libraryGrid"></div>
+  </section>
+
+  <section id="sections" style="background: white;">
+    <div class="section-title">
+      <h3 data-en="Academy Sections" data-ar="أقسام الأكاديمية">Academy Sections</h3>
+      <p data-en="Dedicated spaces for every stakeholder in the Smouha ecosystem." data-ar="مساحات مخصصة لكل أصحاب المصلحة في منظومة سموحة.">Dedicated spaces for every stakeholder in the Smouha ecosystem.</p>
+    </div>
+    <div class="sections-grid" id="sectionsGrid"></div>
+  </section>
+
+  <section id="learning">
+    <div class="section-title">
+      <h3 data-en="Learning Platform & Certification" data-ar="منصة التعلم والتوثيق">Learning Platform & Certification</h3>
+      <p data-en="Track your progress, earn certificates, and document your continuous professional development." data-ar="تتبع تقدمك، واحصل على شهادات، ووثق تطورك المهني المستمر.">Track your progress, earn certificates, and document your continuous professional development.</p>
+    </div>
+    <div style="text-align:center; max-width:700px; margin:0 auto;">
+      <div class="card">
+        <h4 data-en="Candidate Portal" data-ar="بوابة المتدربين">Candidate Portal</h4>
+        <p data-en="Register as a candidate, enroll in modules, complete assessments, and download verified certificates. All progress is documented for professional records." data-ar="سجل كمتدرب، والتحق بالوحدات، وأكمل التقييمات، وحمّل شهادات موثقة. يتم توثيق كل التقدم للسجلات المهنية.">Register as a candidate, enroll in modules, complete assessments, and download verified certificates. All progress is documented for professional records.</p>
+        <br>
+        <a href="admin.html" class="btn-primary" style="font-size:0.95rem;" data-en="Access Portal / Admin" data-ar="الدخول للبوابة / الإدارة">Access Portal / Admin</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <img src="smouha-logo.jpg" alt="Logo" class="footer-logo">
+    <div class="gahar-badge">
+      <span>✓ GAHAR Accredited</span>
+      <span>|</span>
+      <span data-en="Faculty of Medicine · Alexandria University" data-ar="كلية الطب · جامعة الإسكندرية">Faculty of Medicine · Alexandria University</span>
+    </div>
+    <p data-en="Smouha Hospital Academy · Smouha University Medical Campus · Alexandria, Egypt" data-ar="أكاديمية مستشفى سموحة · مجمع سموحة الطبي الجامعي · الإسكندرية، مصر">Smouha Hospital Academy · Smouha University Medical Campus · Alexandria, Egypt</p>
+    <p style="margin-top:1rem; opacity:0.7; font-size:0.9rem;">&copy; 2026 Smouha Hospital Academy. All Rights Reserved.</p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
