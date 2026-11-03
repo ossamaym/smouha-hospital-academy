@@ -85,8 +85,20 @@ function renderAll() {
       if (v.url) {
         // Auto YouTube thumbnail
         const ytMatch = v.url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+        // Auto Vimeo thumbnail
+        const vimeoMatch = v.url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+        // Auto Dailymotion thumbnail
+        const dmMatch = v.url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
+
         if (ytMatch) {
           thumb = `<img src="https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg" alt="Thumbnail" style="width:100%;height:100%;object-fit:cover;">`;
+          thumbStyle = '';
+        } else if (vimeoMatch) {
+          // Vimeo oEmbed-style thumbnail (public endpoint)
+          thumb = `<img src="https://vumbnail.com/${vimeoMatch[1]}.jpg" alt="Thumbnail" style="width:100%;height:100%;object-fit:cover;">`;
+          thumbStyle = '';
+        } else if (dmMatch) {
+          thumb = `<img src="https://www.dailymotion.com/thumbnail/video/${dmMatch[1]}" alt="Thumbnail" style="width:100%;height:100%;object-fit:cover;">`;
           thumbStyle = '';
         } else if (v.thumb) {
           thumb = `<img src="${v.thumb}" alt="Thumbnail" style="width:100%;height:100%;object-fit:cover;">`;
