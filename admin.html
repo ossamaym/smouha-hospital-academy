@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Smouha Hospital Academy</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .admin-header { background: var(--navy); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .admin-header a { color: var(--gold); text-decoration: none; }
+    .content-area { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
+    .item-list { margin-top: 1.5rem; }
+    .item { background: white; padding: 1rem; margin-bottom: 0.8rem; border-radius: 8px; border-left: 4px solid var(--gold); display: flex; justify-content: space-between; align-items: center; }
+    .item button { margin-left: 0.5rem; padding: 0.4rem 0.8rem; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <div class="admin-header">
+    <div>
+      <strong>Smouha Academy Admin</strong>
+      <span style="opacity:0.7; margin-left:1rem;">Super Admin Dashboard</span>
+    </div>
+    <a href="index.html">← Back to Website</a>
+  </div>
+
+  <div id="loginScreen" class="admin-login">
+    <h2 style="text-align:center; color:var(--navy); margin-bottom:1.5rem;">Super Admin Login</h2>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="email" placeholder="yassinossama@yahoo.com" value="yassinossama@yahoo.com">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="Enter password">
+    </div>
+    <button class="btn" style="width:100%;" onclick="login()">Login</button>
+    <p id="loginError" style="color:var(--red); text-align:center; margin-top:1rem; display:none;">Invalid credentials</p>
+  </div>
+
+  <div id="dashboard" class="content-area" style="display:none;">
+    <div class="admin-nav" id="adminNav">
+      <button class="active" onclick="showSection('centers')">Centers</button>
+      <button onclick="showSection('sections')">Sections</button>
+      <button onclick="showSection('library')">Library / Videos</button>
+      <button onclick="showSection('general')">General Texts</button>
+    </div>
+
+    <div id="centersAdmin">
+      <h3>Manage Specialized Centers</h3>
+      <div class="item-list" id="centersList"></div>
+      <button class="btn" onclick="addCenter()" style="margin-top:1rem;">+ Add Center</button>
+    </div>
+
+    <div id="sectionsAdmin" style="display:none;">
+      <h3>Manage Academy Sections</h3>
+      <div class="item-list" id="sectionsList"></div>
+      <button class="btn" onclick="addSection()" style="margin-top:1rem;">+ Add Section</button>
+    </div>
+
+    <div id="libraryAdmin" style="display:none;">
+      <h3>Manage Educational Library</h3>
+      <div class="item-list" id="libraryList"></div>
+      <button class="btn" onclick="addVideo()" style="margin-top:1rem;">+ Add Video / Lecture</button>
+    </div>
+
+    <div id="generalAdmin" style="display:none;">
+      <h3>General Content</h3>
+      <p style="margin:1rem 0; color:#666;">Slogan and main descriptions are editable via the data attributes on the main site. Use the sections above for dynamic content. All changes are saved automatically to the browser and reflected on the public website.</p>
+      <button class="btn" onclick="resetContent()">Reset to Default Content</button>
+    </div>
+
+    <div style="margin-top:2rem; text-align:center;">
+      <button class="btn" onclick="logout()" style="background:var(--red);">Logout</button>
+    </div>
+  </div>
+
+  <script>
+    const ADMIN_EMAIL = 'yassinossama@yahoo.com';
+    const ADMIN_PASS = 'mygodhelpus123456';
+
+    let content = JSON.parse(localStorage.getItem('academyContent')) || null;
+
+    // Load default if none
+    if (!content) {
+      // Will be set from main if needed, but for demo we can redirect
+      content = JSON.parse(localStorage.getItem('academyContent') || '{}');
+    }
+
+    function login() {
+      const email = document.getElementById('email').value;
+      const pass = document.getElementById('password').value;
+      if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
+        localStorage.setItem('academyAdmin', 'true');
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        loadContent();
+        renderAdmin();
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('academyAdmin');
+      location.reload();
+    }
+
+    function loadContent() {
+      content = JSON.parse(localStorage.getItem('academyContent'));
+      if (!content || !content.centers) {
+        // Fallback message
+        alert('Please visit the main website first to initialize content, then return here.');
+        window.location.href = 'index.html';
+      }
+    }
+
+    function saveContent() {
+      localStorage.setItem('academyContent', JSON.stringify(content));
+      alert('Changes saved! Refresh the main website to see updates.');
+    }
+
+    function showSection(sec) {
+      document.querySelectorAll('#dashboard > div[id$="Admin"]').forEach(d => d.style.display = 'none');
+      document.getElementById(sec + 'Admin').style.display = 'block';
+      document.querySelectorAll('.admin-nav button').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    function renderAdmin() {
+      // Centers
+      document.getElementById('centersList').innerHTML = content.centers.map((c, i) => `
+        <div class="item">
+          <div>
+            <strong>${c.en}</strong> / ${c.ar}<br>
+            <small>${c.descEn.substring(0,80)}...</small>
+          </div>
+          <div>
+            <button onclick="editCenter(${i})">Edit</button>
+            <button onclick="deleteCenter(${i})" style="background:var(--red);color:white;">Delete</button>
+          </div>
+        </div>
+      `).join('');
+
+      // Sections
+      document.getElementById('sectionsList').innerHTML = content.sections.map((s, i) => `
+        <div class="item">
+          <div><strong>${s.en}</strong> / ${s.ar}</div>
+          <div>
+            <button onclick="editSection(${i})">Edit</button>
+            <button onclick="deleteSection(${i})" style="background:var(--red);color:white;">Delete</button>
+          </div>
+        </div>
+      `).join('');
+
+      // Library
+      document.getElementById('libraryList').innerHTML = content.library.map((v, i) => `
+        <div class="item">
+          <div><strong>${v.titleEn}</strong> / ${v.titleAr} <small>(${v.cat})</small></div>
+          <div>
+            <button onclick="editVideo(${i})">Edit</button>
+            <button onclick="deleteVideo(${i})" style="background:var(--red);color:white;">Delete</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addCenter() {
+      const en = prompt('English Title:');
+      if (!en) return;
+      const ar = prompt('Arabic Title:');
+      const descEn = prompt('English Description:');
+      const descAr = prompt('Arabic Description:');
+      content.centers.push({ en, ar, descEn, descAr });
+      saveContent(); renderAdmin();
+    }
+
+    function editCenter(i) {
+      const c = content.centers[i];
+      c.en = prompt('English Title:', c.en) || c.en;
+      c.ar = prompt('Arabic Title:', c.ar) || c.ar;
+      c.descEn = prompt('English Description:', c.descEn) || c.descEn;
+      c.descAr = prompt('Arabic Description:', c.descAr) || c.descAr;
+      saveContent(); renderAdmin();
+    }
+
+    function deleteCenter(i) {
+      if (confirm('Delete this center?')) {
+        content.centers.splice(i, 1);
+        saveContent(); renderAdmin();
+      }
+    }
+
+    function addSection() {
+      const en = prompt('English Title:');
+      if (!en) return;
+      const ar = prompt('Arabic Title:');
+      const descEn = prompt('English Description:');
+      const descAr = prompt('Arabic Description:');
+      content.sections.push({ en, ar, descEn, descAr });
+      saveContent(); renderAdmin();
+    }
+
+    function editSection(i) {
+      const s = content.sections[i];
+      s.en = prompt('English Title:', s.en) || s.en;
+      s.ar = prompt('Arabic Title:', s.ar) || s.ar;
+      s.descEn = prompt('English Description:', s.descEn) || s.descEn;
+      s.descAr = prompt('Arabic Description:', s.descAr) || s.descAr;
+      saveContent(); renderAdmin();
+    }
+
+    function deleteSection(i) {
+      if (confirm('Delete this section?')) {
+        content.sections.splice(i, 1);
+        saveContent(); renderAdmin();
+      }
+    }
+
+    function addVideo() {
+      const titleEn = prompt('English Title:');
+      if (!titleEn) return;
+      const titleAr = prompt('Arabic Title:');
+      const cat = prompt('Category (e.g. Neurointervention, Nursing):');
+      const type = prompt('Type (Lecture / Awareness / Training):');
+      content.library.push({ titleEn, titleAr, cat, type });
+      saveContent(); renderAdmin();
+    }
+
+    function editVideo(i) {
+      const v = content.library[i];
+      v.titleEn = prompt('English Title:', v.titleEn) || v.titleEn;
+      v.titleAr = prompt('Arabic Title:', v.titleAr) || v.titleAr;
+      v.cat = prompt('Category:', v.cat) || v.cat;
+      v.type = prompt('Type:', v.type) || v.type;
+      saveContent(); renderAdmin();
+    }
+
+    function deleteVideo(i) {
+      if (confirm('Delete this item?')) {
+        content.library.splice(i, 1);
+        saveContent(); renderAdmin();
+      }
+    }
+
+    function resetContent() {
+      if (confirm('Reset all content to default? This cannot be undone.')) {
+        localStorage.removeItem('academyContent');
+        alert('Reset complete. Please reload the main website to reinitialize.');
+        location.reload();
+      }
+    }
+
+    // Check if already logged in
+    if (localStorage.getItem('academyAdmin') === 'true') {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      loadContent();
+      if (content && content.centers) renderAdmin();
+    }
+  </script>
+</body>
+</html>
