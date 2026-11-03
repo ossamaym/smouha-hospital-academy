@@ -25,11 +25,11 @@ const defaultContent = {
     { en: "Other Departments", ar: "الأقسام الأخرى", descEn: "Additional clinical and support departments within the campus.", descAr: "الأقسام السريرية والداعمة الأخرى داخل المجمع." }
   ],
   library: [
-    { titleEn: "Stroke Code Simulation Workshop", titleAr: "ورشة محاكاة كود السكتة الدماغية", cat: "Neurointervention", type: "Lecture", url: "" },
-    { titleEn: "GAHAR Quality Standards Overview", titleAr: "نظرة عامة على معايير جودة GAHAR", cat: "Quality", type: "Awareness", url: "" },
-    { titleEn: "Pediatric Cardiac Intervention Basics", titleAr: "أساسيات التدخل القلبي عند الأطفال", cat: "Pediatric", type: "Lecture", url: "" },
-    { titleEn: "Nursing Excellence in ICU", titleAr: "التميز التمريضي في العناية المركزة", cat: "Nursing", type: "Training", url: "" },
-    { titleEn: "Medical Device Innovation at MEDRA", titleAr: "ابتكار الأجهزة الطبية في مدرا", cat: "Innovation", type: "Lecture", url: "" }
+    { titleEn: "Stroke Code Simulation Workshop", titleAr: "ورشة محاكاة كود السكتة الدماغية", cat: "Neurointervention", type: "Lecture", url: "", likes: 0, liked: false },
+    { titleEn: "GAHAR Quality Standards Overview", titleAr: "نظرة عامة على معايير جودة GAHAR", cat: "Quality", type: "Awareness", url: "", likes: 0, liked: false },
+    { titleEn: "Pediatric Cardiac Intervention Basics", titleAr: "أساسيات التدخل القلبي عند الأطفال", cat: "Pediatric", type: "Lecture", url: "", likes: 0, liked: false },
+    { titleEn: "Nursing Excellence in ICU", titleAr: "التميز التمريضي في العناية المركزة", cat: "Nursing", type: "Training", url: "", likes: 0, liked: false },
+    { titleEn: "Medical Device Innovation at MEDRA", titleAr: "ابتكار الأجهزة الطبية في مدرا", cat: "Innovation", type: "Lecture", url: "", likes: 0, liked: false }
   ]
 };
 
@@ -111,7 +111,12 @@ function renderAll() {
           <div class="video-info">
             <h5>${currentLang === 'en' ? v.titleEn : v.titleAr}</h5>
             <p style="font-size:0.85rem; color:#666;">${v.cat} · ${v.type}</p>
-            ${v.url ? `<a href="${v.url}" target="_blank" style="color:var(--gold); font-weight:600; text-decoration:none;">▶ Watch / Open</a>` : ''}
+            <div style="display:flex; align-items:center; gap:0.8rem; margin-top:0.6rem;">
+              ${v.url ? `<a href="${v.url}" target="_blank" style="color:var(--gold); font-weight:600; text-decoration:none;">▶ Watch / Open</a>` : ''}
+              <button onclick="toggleLike(${content.library.indexOf(v)})" style="background:none; border:none; cursor:pointer; font-size:1.1rem; color:${v.liked ? 'var(--red)' : '#888'};" title="Like">
+                ${v.liked ? '♥' : '♡'} <span style="font-size:0.85rem;">${v.likes || 0}</span>
+              </button>
+            </div>
           </div>
         </div>
       `;
@@ -125,6 +130,21 @@ document.getElementById('langSwitch').addEventListener('click', () => {
 
 // Initialize
 setLanguage(currentLang);
+
+// Like functionality
+function toggleLike(index) {
+  const item = content.library[index];
+  if (!item.likes) item.likes = 0;
+  if (item.liked) {
+    item.likes = Math.max(0, item.likes - 1);
+    item.liked = false;
+  } else {
+    item.likes += 1;
+    item.liked = true;
+  }
+  localStorage.setItem('academyContent', JSON.stringify(content));
+  renderAll();
+}
 
 // Smooth scroll for nav
 document.querySelectorAll('nav a').forEach(a => {
