@@ -155,7 +155,7 @@
       // Library
       document.getElementById('libraryList').innerHTML = content.library.map((v, i) => `
         <div class="item">
-          <div><strong>${v.titleEn}</strong> / ${v.titleAr} <small>(${v.cat})</small></div>
+          <div><strong>${v.titleEn}</strong> / ${v.titleAr} <small>(${v.cat})</small>${v.url ? '<br><small style="color:#1B4F8A;">🔗 ' + v.url.substring(0,50) + '...</small>' : ''}</div>
           <div>
             <button onclick="editVideo(${i})">Edit</button>
             <button onclick="deleteVideo(${i})" style="background:var(--red);color:white;">Delete</button>
@@ -222,7 +222,8 @@
       const titleAr = prompt('Arabic Title:');
       const cat = prompt('Category (e.g. Neurointervention, Nursing):');
       const type = prompt('Type (Lecture / Awareness / Training):');
-      content.library.push({ titleEn, titleAr, cat, type });
+      const url = prompt('Video / YouTube / Lecture Link (optional):') || '';
+      content.library.push({ titleEn, titleAr, cat, type, url });
       saveContent(); renderAdmin();
     }
 
@@ -232,6 +233,7 @@
       v.titleAr = prompt('Arabic Title:', v.titleAr) || v.titleAr;
       v.cat = prompt('Category:', v.cat) || v.cat;
       v.type = prompt('Type:', v.type) || v.type;
+      v.url = prompt('Video / YouTube / Lecture Link:', v.url || '') || '';
       saveContent(); renderAdmin();
     }
 
