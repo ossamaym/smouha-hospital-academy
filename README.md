@@ -27,4 +27,4 @@
 ---
 *Smouha University Medical Campus · Faculty of Medicine · Alexandria University · GAHAR Accredited*
 
-**Note**: Full website files (index.html, admin.html, styles.css, main.js, smouha-logo.jpg) should be added to the root for complete deployment. Enable GitHub Pages from Settings > Pages to host it live.
+**Note**: Full website files (index.html, admin.html, styles.css, main.js, smouha-logo.png) should be added to the root for complete deployment. Enable GitHub Pages from Settings > Pages to host it live.
