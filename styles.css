@@ -149,7 +149,7 @@ nav a:hover::after, nav a.active::after { width: 100%; }
   content: '';
   position: absolute;
   inset: 0;
-  background: url('smouha-logo.jpg') center/cover no-repeat;
+  background: url('smouha-logo.png') center/cover no-repeat;
   opacity: 0.08;
   filter: blur(2px);
 }
