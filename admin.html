@@ -223,7 +223,7 @@
       const cat = prompt('Category (e.g. Neurointervention, Nursing):');
       const type = prompt('Type (Lecture / Awareness / Training):');
       const url = prompt('Video / YouTube / Lecture Link (optional):') || '';
-      content.library.push({ titleEn, titleAr, cat, type, url });
+      content.library.push({ titleEn, titleAr, cat, type, url, likes: 0, liked: false });
       saveContent(); renderAdmin();
     }
 
