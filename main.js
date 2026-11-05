@@ -1,4 +1,4 @@
-// Smouha Hospital Academy - Main Script
+// Smouha Hospital Academy - Main Script (Embedded Videos)
 const defaultContent = {
   centers: [
     { en: "Stroke & Neurointervention", ar: "السكتة الدماغية والتدخل العصبي", descEn: "Comprehensive stroke center with international SILC accreditation from SVIN. Advanced neurointerventional procedures and training.", descAr: "مركز شامل للسكتة الدماغية معتمد دولياً من SVIN. إجراءات تدخل عصبي متقدمة وتدريب." },
@@ -53,8 +53,29 @@ function setLanguage(lang) {
   renderAll();
 }
 
+function getEmbedUrl(url) {
+  if (!url) return null;
+  const yt = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if (yt) return `https://www.youtube.com/embed/${yt[1]}?rel=0&modestbranding=1`;
+  const vimeo = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (vimeo) return `https://player.vimeo.com/video/${vimeo[1]}`;
+  const dm = url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
+  if (dm) return `https://www.dailymotion.com/embed/video/${dm[1]}`;
+  return null;
+}
+
+function getThumbnail(url) {
+  if (!url) return null;
+  const yt = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if (yt) return `https://img.youtube.com/vi/${yt[1]}/hqdefault.jpg`;
+  const vimeo = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (vimeo) return `https://vumbnail.com/${vimeo[1]}.jpg`;
+  const dm = url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
+  if (dm) return `https://www.dailymotion.com/thumbnail/video/${dm[1]}`;
+  return null;
+}
+
 function renderAll() {
-  // Centers
   const centersGrid = document.getElementById('centersGrid');
   if (centersGrid) {
     centersGrid.innerHTML = content.centers.map(c => `
@@ -65,7 +86,6 @@ function renderAll() {
     `).join('');
   }
 
-  // Sections
   const sectionsGrid = document.getElementById('sectionsGrid');
   if (sectionsGrid) {
     sectionsGrid.innerHTML = content.sections.map(s => `
@@ -76,44 +96,28 @@ function renderAll() {
     `).join('');
   }
 
-  // Library
   const libraryGrid = document.getElementById('libraryGrid');
   if (libraryGrid) {
-    libraryGrid.innerHTML = content.library.map(v => {
-      let thumb = '▶';
-      let thumbStyle = 'display:flex;align-items:center;justify-content:center;font-size:3rem;color:var(--gold);';
-      if (v.url) {
-        // Auto YouTube thumbnail
-        const ytMatch = v.url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-        // Auto Vimeo thumbnail
-        const vimeoMatch = v.url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
-        // Auto Dailymotion thumbnail
-        const dmMatch = v.url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
-
-        if (ytMatch) {
-          thumb = `<img src="https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg" alt="Thumbnail" style="width:100%;height:100%;object-fit:cover;">`;
-          thumbStyle = '';
-        } else if (vimeoMatch) {
-          // Vimeo oEmbed-style thumbnail (public endpoint)
-          thumb = `<img src="https://vumbnail.com/${vimeoMatch[1]}.jpg" alt="Thumbnail" style="width:100%;height:100%;object-fit:cover;">`;
-          thumbStyle = '';
-        } else if (dmMatch) {
-          thumb = `<img src="https://www.dailymotion.com/thumbnail/video/${dmMatch[1]}" alt="Thumbnail" style="width:100%;height:100%;object-fit:cover;">`;
-          thumbStyle = '';
-        } else if (v.thumb) {
-          thumb = `<img src="${v.thumb}" alt="Thumbnail" style="width:100%;height:100%;object-fit:cover;">`;
-          thumbStyle = '';
-        }
+    libraryGrid.innerHTML = content.library.map((v, idx) => {
+      const embed = getEmbedUrl(v.url);
+      const thumb = getThumbnail(v.url);
+      let media = `<div class="video-thumb" style="display:flex;align-items:center;justify-content:center;font-size:3rem;color:var(--gold);">▶</div>`;
+      if (embed) {
+        media = `
+          <div class="video-thumb" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+            <iframe src="${embed}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>`;
+      } else if (thumb) {
+        media = `<div class="video-thumb"><img src="${thumb}" alt="Thumbnail" style="width:100%;height:100%;object-fit:cover;"></div>`;
       }
       return `
         <div class="video-card">
-          <div class="video-thumb" style="${thumbStyle}">${thumb}</div>
+          ${media}
           <div class="video-info">
             <h5>${currentLang === 'en' ? v.titleEn : v.titleAr}</h5>
             <p style="font-size:0.85rem; color:#666;">${v.cat} · ${v.type}</p>
             <div style="display:flex; align-items:center; gap:0.8rem; margin-top:0.6rem;">
-              ${v.url ? `<a href="${v.url}" target="_blank" style="color:var(--gold); font-weight:600; text-decoration:none;">▶ Watch / Open</a>` : ''}
-              <button onclick="toggleLike(${content.library.indexOf(v)})" style="background:none; border:none; cursor:pointer; font-size:1.1rem; color:${v.liked ? 'var(--red)' : '#888'};" title="Like">
+              <button onclick="toggleLike(${idx})" style="background:none; border:none; cursor:pointer; font-size:1.1rem; color:${v.liked ? 'var(--red)' : '#888'};" title="Like">
                 ${v.liked ? '♥' : '♡'} <span style="font-size:0.85rem;">${v.likes || 0}</span>
               </button>
             </div>
@@ -128,10 +132,8 @@ document.getElementById('langSwitch').addEventListener('click', () => {
   setLanguage(currentLang === 'en' ? 'ar' : 'en');
 });
 
-// Initialize
 setLanguage(currentLang);
 
-// Like functionality
 function toggleLike(index) {
   const item = content.library[index];
   if (!item.likes) item.likes = 0;
@@ -146,7 +148,6 @@ function toggleLike(index) {
   renderAll();
 }
 
-// Smooth scroll for nav
 document.querySelectorAll('nav a').forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
