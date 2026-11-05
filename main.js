@@ -1,4 +1,4 @@
-// Smouha Hospital Academy - Main Script (Embedded + Sync)
+// Smouha Hospital Academy - Main Script (Force Sync)
 const defaultContent = {
   centers: [
     { en: "Stroke & Neurointervention", ar: "السكتة الدماغية والتدخل العصبي", descEn: "Comprehensive stroke center with international SILC accreditation from SVIN. Advanced neurointerventional procedures and training.", descAr: "مركز شامل للسكتة الدماغية معتمد دولياً من SVIN. إجراءات تدخل عصبي متقدمة وتدريب." },
@@ -157,7 +157,6 @@ document.querySelectorAll('nav a').forEach(a => {
   });
 });
 
-window.addEventListener('focus', () => {
-  reloadContent();
-  renderAll();
-});
+window.addEventListener('focus', () => { reloadContent(); renderAll(); });
+document.addEventListener('visibilitychange', () => { if (!document.hidden) { reloadContent(); renderAll(); } });
+setInterval(() => { reloadContent(); renderAll(); }, 5000);
