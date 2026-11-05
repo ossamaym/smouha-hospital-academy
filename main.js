@@ -1,4 +1,4 @@
-// Smouha Hospital Academy - Main Script (Embedded Videos)
+// Smouha Hospital Academy - Main Script (Embedded + Sync)
 const defaultContent = {
   centers: [
     { en: "Stroke & Neurointervention", ar: "السكتة الدماغية والتدخل العصبي", descEn: "Comprehensive stroke center with international SILC accreditation from SVIN. Advanced neurointerventional procedures and training.", descAr: "مركز شامل للسكتة الدماغية معتمد دولياً من SVIN. إجراءات تدخل عصبي متقدمة وتدريب." },
@@ -39,17 +39,20 @@ if (!localStorage.getItem('academyContent')) {
   localStorage.setItem('academyContent', JSON.stringify(defaultContent));
 }
 
+function reloadContent() {
+  const fresh = localStorage.getItem('academyContent');
+  if (fresh) content = JSON.parse(fresh);
+}
+
 function setLanguage(lang) {
   currentLang = lang;
   localStorage.setItem('academyLang', lang);
   document.body.classList.toggle('rtl', lang === 'ar');
   document.documentElement.lang = lang;
   document.getElementById('langSwitch').textContent = lang === 'en' ? 'العربية' : 'English';
-
   document.querySelectorAll('[data-en]').forEach(el => {
     el.textContent = el.getAttribute(lang === 'en' ? 'data-en' : 'data-ar');
   });
-
   renderAll();
 }
 
@@ -76,6 +79,7 @@ function getThumbnail(url) {
 }
 
 function renderAll() {
+  reloadContent();
   const centersGrid = document.getElementById('centersGrid');
   if (centersGrid) {
     centersGrid.innerHTML = content.centers.map(c => `
@@ -85,7 +89,6 @@ function renderAll() {
       </div>
     `).join('');
   }
-
   const sectionsGrid = document.getElementById('sectionsGrid');
   if (sectionsGrid) {
     sectionsGrid.innerHTML = content.sections.map(s => `
@@ -95,7 +98,6 @@ function renderAll() {
       </div>
     `).join('');
   }
-
   const libraryGrid = document.getElementById('libraryGrid');
   if (libraryGrid) {
     libraryGrid.innerHTML = content.library.map((v, idx) => {
@@ -153,4 +155,9 @@ document.querySelectorAll('nav a').forEach(a => {
     e.preventDefault();
     document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
   });
+});
+
+window.addEventListener('focus', () => {
+  reloadContent();
+  renderAll();
 });
