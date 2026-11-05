@@ -12,6 +12,7 @@
     .item-list { margin-top: 1.5rem; }
     .item { background: white; padding: 1rem; margin-bottom: 0.8rem; border-radius: 8px; border-left: 4px solid var(--gold); display: flex; justify-content: space-between; align-items: center; }
     .item button { margin-left: 0.5rem; padding: 0.4rem 0.8rem; font-size: 0.85rem; }
+    .save-bar { background: #f0f8ff; padding: 1rem; border-radius: 8px; margin: 1rem 0; text-align: center; border: 1px solid var(--gold); }
   </style>
 </head>
 <body>
@@ -38,6 +39,11 @@
   </div>
 
   <div id="dashboard" class="content-area" style="display:none;">
+    <div class="save-bar">
+      <strong>All changes are saved automatically to your browser.</strong><br>
+      <small>After adding/editing, go to the homepage and refresh (Ctrl+Shift+R) to see updates.</small>
+    </div>
+
     <div class="admin-nav" id="adminNav">
       <button class="active" onclick="showSection('centers')">Centers</button>
       <button onclick="showSection('sections')">Sections</button>
@@ -65,7 +71,7 @@
 
     <div id="generalAdmin" style="display:none;">
       <h3>General Content</h3>
-      <p style="margin:1rem 0; color:#666;">Slogan and main descriptions are editable via the data attributes on the main site. Use the sections above for dynamic content. All changes are saved automatically to the browser and reflected on the public website.</p>
+      <p style="margin:1rem 0; color:#666;">Slogan and main descriptions are editable via the data attributes on the main site. Use the sections above for dynamic content. All changes are saved automatically to the browser and reflected on the public website after refresh.</p>
       <button class="btn" onclick="resetContent()">Reset to Default Content</button>
     </div>
 
@@ -120,7 +126,7 @@
 
     function saveContent() {
       localStorage.setItem('academyContent', JSON.stringify(content));
-      alert('Changes saved! Refresh the main website to see updates.');
+      alert('Saved! Go to the homepage and press Ctrl+Shift+R to see the update.');
     }
 
     function showSection(sec) {
@@ -156,7 +162,7 @@
         <div class="item">
           <div>
             <strong>${v.titleEn}</strong> / ${v.titleAr} <small>(${v.cat})</small>
-            ${v.url ? '<br><small style="color:#1B4F8A;">🔗 ' + v.url.substring(0,60) + '</small>' : '<br><small style="color:#999;">No video link</small>'}
+            ${v.url ? '<br><small style="color:#1B4F8A;">🔗 ' + v.url.substring(0,70) + '</small>' : '<br><small style="color:#999;">No video link</small>'}
           </div>
           <div>
             <button onclick="editVideo(${i})">Edit</button>
