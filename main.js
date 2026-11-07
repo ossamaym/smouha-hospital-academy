@@ -1,4 +1,4 @@
-// Smouha Hospital Academy - Main Script (Force Sync)
+// Smouha Hospital Academy - Main Script (Clinical Pharmacy Summit)
 const defaultContent = {
   centers: [
     { en: "Stroke & Neurointervention", ar: "السكتة الدماغية والتدخل العصبي", descEn: "Comprehensive stroke center with international SILC accreditation from SVIN. Advanced neurointerventional procedures and training.", descAr: "مركز شامل للسكتة الدماغية معتمد دولياً من SVIN. إجراءات تدخل عصبي متقدمة وتدريب." },
@@ -18,7 +18,7 @@ const defaultContent = {
     { en: "Quality Team", ar: "فريق الجودة", descEn: "Dedicated quality improvement and GAHAR compliance team.", descAr: "فريق تحسين الجودة والامتثال لمعايير GAHAR." },
     { en: "Technicians", ar: "الفنيون", descEn: "Training and resources for medical technicians across all specialties.", descAr: "تدريب وموارد للفنيين الطبيين في جميع التخصصات." },
     { en: "Nursing Staff", ar: "هيئة التمريض", descEn: "Continuous professional development and excellence programs for nursing.", descAr: "برامج التطوير المهني المستمر والتميز للتمريض." },
-    { en: "Clinical Pharmacy", ar: "الصيدلة الإكلينيكية", descEn: "Advanced clinical pharmacy education and practice resources.", descAr: "تعليم وممارسة الصيدلة الإكلينيكية المتقدمة." },
+    { en: "Clinical Pharmacy", ar: "الصيدلة الإكلينيكية", descEn: "Advanced clinical pharmacy education, critical decision summits, and practice resources.", descAr: "تعليم وممارسة الصيدلة الإكلينيكية المتقدمة وقمة القرارات الحرجة." },
     { en: "HR & Non-Medical Staff", ar: "الموارد البشرية والكوادر غير الطبية", descEn: "Administrative, support, and professional development for non-clinical staff.", descAr: "التطوير الإداري والمهني للموظفين غير السريريين." },
     { en: "Research & Bio-Technology", ar: "البحث العلمي والتكنولوجيا الحيوية", descEn: "Research opportunities, biotech initiatives, and scientific publications.", descAr: "فرص البحث والمبادرات الحيوية والمنشورات العلمية." },
     { en: "Medical Innovation Center", ar: "مركز الابتكار الطبي", descEn: "MEDRA · SMITT — Translational medical innovation and technology transfer at Smouha.", descAr: "مدرا · سميت — الابتكار الطبي الانتقالي ونقل التكنولوجيا الطبية في سموحة." },
@@ -29,7 +29,17 @@ const defaultContent = {
     { titleEn: "GAHAR Quality Standards Overview", titleAr: "نظرة عامة على معايير جودة GAHAR", cat: "Quality", type: "Awareness", url: "", likes: 0, liked: false },
     { titleEn: "Pediatric Cardiac Intervention Basics", titleAr: "أساسيات التدخل القلبي عند الأطفال", cat: "Pediatric", type: "Lecture", url: "", likes: 0, liked: false },
     { titleEn: "Nursing Excellence in ICU", titleAr: "التميز التمريضي في العناية المركزة", cat: "Nursing", type: "Training", url: "", likes: 0, liked: false },
-    { titleEn: "Medical Device Innovation at MEDRA", titleAr: "ابتكار الأجهزة الطبية في مدرا", cat: "Innovation", type: "Lecture", url: "", likes: 0, liked: false }
+    { titleEn: "Medical Device Innovation at MEDRA", titleAr: "ابتكار الأجهزة الطبية في مدرا", cat: "Innovation", type: "Lecture", url: "", likes: 0, liked: false },
+    { titleEn: "(1st) Summit Hemodialysis Transition Critical Decisions - Part 1", titleAr: "قمة سموحة الأولى لقرارات الانتقال الحرجة في الغسيل الكلوي - الجزء 1", cat: "Clinical Pharmacy", subcat: "Smouha Clinical Critical Decision Summit", type: "Lecture", url: "https://youtu.be/twiIBhpsj2s", likes: 0, liked: false },
+    { titleEn: "(1st) Summit Hemodialysis Transition Critical Decisions - Part 2", titleAr: "قمة سموحة الأولى لقرارات الانتقال الحرجة في الغسيل الكلوي - الجزء 2", cat: "Clinical Pharmacy", subcat: "Smouha Clinical Critical Decision Summit", type: "Lecture", url: "https://youtu.be/C2IaEZYHTsA", likes: 0, liked: false },
+    { titleEn: "(1st) Summit Hemodialysis Transition Critical Decisions - Part 3", titleAr: "قمة سموحة الأولى لقرارات الانتقال الحرجة في الغسيل الكلوي - الجزء 3", cat: "Clinical Pharmacy", subcat: "Smouha Clinical Critical Decision Summit", type: "Lecture", url: "https://youtu.be/Yzkgmq_yvh8", likes: 0, liked: false },
+    { titleEn: "(1st) Summit Hemodialysis Transition Critical Decisions - Part 4", titleAr: "قمة سموحة الأولى لقرارات الانتقال الحرجة في الغسيل الكلوي - الجزء 4", cat: "Clinical Pharmacy", subcat: "Smouha Clinical Critical Decision Summit", type: "Lecture", url: "https://youtu.be/sIaeQjYdoiA", likes: 0, liked: false },
+    { titleEn: "(1st) Summit Hemodialysis Transition Critical Decisions - Part 5", titleAr: "قمة سموحة الأولى لقرارات الانتقال الحرجة في الغسيل الكلوي - الجزء 5", cat: "Clinical Pharmacy", subcat: "Smouha Clinical Critical Decision Summit", type: "Lecture", url: "https://youtu.be/NvXPL8IKvVc", likes: 0, liked: false },
+    { titleEn: "(1st) Summit Hemodialysis Transition Critical Decisions - Part 6", titleAr: "قمة سموحة الأولى لقرارات الانتقال الحرجة في الغسيل الكلوي - الجزء 6", cat: "Clinical Pharmacy", subcat: "Smouha Clinical Critical Decision Summit", type: "Lecture", url: "https://youtu.be/Gr0rbrITYAQ", likes: 0, liked: false },
+    { titleEn: "(1st) Summit Hemodialysis Transition Critical Decisions - Part 7", titleAr: "قمة سموحة الأولى لقرارات الانتقال الحرجة في الغسيل الكلوي - الجزء 7", cat: "Clinical Pharmacy", subcat: "Smouha Clinical Critical Decision Summit", type: "Lecture", url: "https://youtu.be/bpoqPrgBgzg", likes: 0, liked: false },
+    { titleEn: "(1st) Summit Hemodialysis Transition Critical Decisions - Part 8", titleAr: "قمة سموحة الأولى لقرارات الانتقال الحرجة في الغسيل الكلوي - الجزء 8", cat: "Clinical Pharmacy", subcat: "Smouha Clinical Critical Decision Summit", type: "Lecture", url: "https://youtu.be/DyxeIvShuiM", likes: 0, liked: false },
+    { titleEn: "(1st) Summit Hemodialysis Transition Critical Decisions - Part 9", titleAr: "قمة سموحة الأولى لقرارات الانتقال الحرجة في الغسيل الكلوي - الجزء 9", cat: "Clinical Pharmacy", subcat: "Smouha Clinical Critical Decision Summit", type: "Lecture", url: "https://youtu.be/8UI3iqplzl4", likes: 0, liked: false },
+    { titleEn: "(1st) Summit Hemodialysis Transition Critical Decisions - Part 16", titleAr: "قمة سموحة الأولى لقرارات الانتقال الحرجة في الغسيل الكلوي - الجزء 16", cat: "Clinical Pharmacy", subcat: "Smouha Clinical Critical Decision Summit", type: "Lecture", url: "https://youtu.be/QAj-PadX9DM", likes: 0, liked: false }
   ]
 };
 
@@ -100,33 +110,46 @@ function renderAll() {
   }
   const libraryGrid = document.getElementById('libraryGrid');
   if (libraryGrid) {
-    libraryGrid.innerHTML = content.library.map((v, idx) => {
-      const embed = getEmbedUrl(v.url);
-      const thumb = getThumbnail(v.url);
-      let media = `<div class="video-thumb" style="display:flex;align-items:center;justify-content:center;font-size:3rem;color:var(--gold);">▶</div>`;
-      if (embed) {
-        media = `
-          <div class="video-thumb" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
-            <iframe src="${embed}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          </div>`;
-      } else if (thumb) {
-        media = `<div class="video-thumb"><img src="${thumb}" alt="Thumbnail" style="width:100%;height:100%;object-fit:cover;"></div>`;
-      }
-      return `
-        <div class="video-card">
-          ${media}
-          <div class="video-info">
-            <h5>${currentLang === 'en' ? v.titleEn : v.titleAr}</h5>
-            <p style="font-size:0.85rem; color:#666;">${v.cat} · ${v.type}</p>
-            <div style="display:flex; align-items:center; gap:0.8rem; margin-top:0.6rem;">
-              <button onclick="toggleLike(${idx})" style="background:none; border:none; cursor:pointer; font-size:1.1rem; color:${v.liked ? 'var(--red)' : '#888'};" title="Like">
-                ${v.liked ? '♥' : '♡'} <span style="font-size:0.85rem;">${v.likes || 0}</span>
-              </button>
+    const groups = {};
+    content.library.forEach((v, idx) => {
+      const key = v.cat || 'General';
+      if (!groups[key]) groups[key] = [];
+      groups[key].push({ ...v, idx });
+    });
+
+    let html = '';
+    Object.keys(groups).forEach(cat => {
+      html += `<h4 style="grid-column:1/-1; margin:2rem 0 1rem; color:var(--navy); border-bottom:2px solid var(--gold); padding-bottom:0.5rem;">${cat}</h4>`;
+      groups[cat].forEach(v => {
+        const embed = getEmbedUrl(v.url);
+        const thumb = getThumbnail(v.url);
+        let media = `<div class="video-thumb" style="display:flex;align-items:center;justify-content:center;font-size:3rem;color:var(--gold);">▶</div>`;
+        if (embed) {
+          media = `
+            <div class="video-thumb" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+              <iframe src="${embed}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>`;
+        } else if (thumb) {
+          media = `<div class="video-thumb"><img src="${thumb}" alt="Thumbnail" style="width:100%;height:100%;object-fit:cover;"></div>`;
+        }
+        const sub = v.subcat ? `<br><small style="color:var(--gold);">${v.subcat}</small>` : '';
+        html += `
+          <div class="video-card">
+            ${media}
+            <div class="video-info">
+              <h5>${currentLang === 'en' ? v.titleEn : v.titleAr}</h5>
+              <p style="font-size:0.85rem; color:#666;">${v.cat} · ${v.type}${sub}</p>
+              <div style="display:flex; align-items:center; gap:0.8rem; margin-top:0.6rem;">
+                <button onclick="toggleLike(${v.idx})" style="background:none; border:none; cursor:pointer; font-size:1.1rem; color:${v.liked ? 'var(--red)' : '#888'};" title="Like">
+                  ${v.liked ? '♥' : '♡'} <span style="font-size:0.85rem;">${v.likes || 0}</span>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      `;
-    }).join('');
+        `;
+      });
+    });
+    libraryGrid.innerHTML = html;
   }
 }
 
