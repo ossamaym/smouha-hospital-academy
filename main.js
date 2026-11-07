@@ -1,4 +1,4 @@
-// Smouha Hospital Academy - Main Script (Clinical Pharmacy Summit)
+// Smouha Hospital Academy - Main Script (Auto-merge Clinical Pharmacy)
 const defaultContent = {
   centers: [
     { en: "Stroke & Neurointervention", ar: "السكتة الدماغية والتدخل العصبي", descEn: "Comprehensive stroke center with international SILC accreditation from SVIN. Advanced neurointerventional procedures and training.", descAr: "مركز شامل للسكتة الدماغية معتمد دولياً من SVIN. إجراءات تدخل عصبي متقدمة وتدريب." },
@@ -44,14 +44,22 @@ const defaultContent = {
 };
 
 let currentLang = localStorage.getItem('academyLang') || 'en';
-let content = JSON.parse(localStorage.getItem('academyContent')) || defaultContent;
-if (!localStorage.getItem('academyContent')) {
-  localStorage.setItem('academyContent', JSON.stringify(defaultContent));
+let content = JSON.parse(localStorage.getItem('academyContent')) || JSON.parse(JSON.stringify(defaultContent));
+
+function mergeNewVideos() {
+  const existingUrls = new Set(content.library.map(v => v.url).filter(Boolean));
+  const newOnes = defaultContent.library.filter(v => v.url && !existingUrls.has(v.url));
+  if (newOnes.length > 0) {
+    content.library.push(...newOnes);
+    localStorage.setItem('academyContent', JSON.stringify(content));
+  }
 }
+mergeNewVideos();
 
 function reloadContent() {
   const fresh = localStorage.getItem('academyContent');
   if (fresh) content = JSON.parse(fresh);
+  mergeNewVideos();
 }
 
 function setLanguage(lang) {
